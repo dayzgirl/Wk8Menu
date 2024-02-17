@@ -1,9 +1,7 @@
-//This is a menu to create a roster of trainees for the next training class. It should include the full names, employee ID, Phone number, 
-//email, whether their background check and drug tests have been cleared, and the type of trainee (employees, management, contractors, and temps).  
-//If the background check and drug tests have not been cleared, it should not allow you to add the new hire. You should be able to see the trainees
-//by type.
+//the provided code sets up a system for managing different types of employees and their associated trainees through a menu-driven interface. 
+//Users can create, view, and delete employee types, as well as add or remove trainees within each type.
 
-//Type of trainee and trainee name
+//This section describes the Trainee class and its properties. It also uses a describe method to state the name and job title of the employees.
 class Trainee {
     constructor(name, title) {
         this.name = name;
@@ -15,6 +13,7 @@ class Trainee {
     }
 }
 
+//This section describes the EmployeeType class, adding the properties of 'name' and an empty array of 'trainees'. 
 class EmployeeType {
     constructor(name) {
         this.name = name;
@@ -24,26 +23,27 @@ class EmployeeType {
     addTrainee(trainee) {
         if (trainee instanceof Trainee) {
             this.trainees.push(trainee);
-        } else {
-            throw new Error(`You can only add an instance of Trainee.
+        } else { //If the argument passed is not an instance of 'Trainee', it shows an error.
+            throw new Error(`You can only add an instance of Trainee. 
             Argument is not trainee: ${trainee}`);
         }
     }
 
     describe() {
-        return `There are ${this.trainees.length} ${this.name} trainees in the upcoming training.`;
+        return `There are ${this.trainees.length} ${this.name} trainees in the upcoming training.`; //Shows the number of trainees for the particular employee type.
     }
 }
 
+//This section defines the menu system that will be used in the app. 
 class Menu {
     constructor() {
         this.employeeTypes = [];
         this.selectedEmployeeType = null;
     }
 
-    start() {
+    start() { //Start method to show the starting point of the application and what each selection will be tied to.
         let selection = this.showMainMenuOptions();
-        while (selection !== '4') {
+        while (selection !== '4') { 
             switch(selection) {
                 case '0':
                     this.createEmployeeType();
@@ -60,10 +60,10 @@ class Menu {
             }
             selection = this.showMainMenuOptions();
         }
-        alert('Task completed!');
+        alert('Task completed!'); //If the selection is 4 (Exit), this alert will pop up on the screen.
     }
 
-    showMainMenuOptions() {
+    showMainMenuOptions() { //Selections for the main menu (what will be displayed).
         return prompt(`
         0) Create a new employee type
         1) View trainees by employee type
@@ -73,7 +73,8 @@ class Menu {
         `);
     }
 
-    showEmployeeTypeMenuOptions(employeeTypeInfo) {
+//Shows what each menu item is linked to and how to handle user input.
+    showEmployeeTypeMenuOptions(employeeTypeInfo) {  //Selections for the employee type menu.
         return prompt(`
         0) Add new trainee
         1) Delete existing trainee
@@ -90,7 +91,7 @@ class Menu {
         alert(employeeTypeString);
     }
 
-    createEmployeeType() {
+    createEmployeeType() { 
         let name = prompt('Enter new employee type: ');
         this.employeeTypes.push(new EmployeeType(name));
     }
@@ -104,7 +105,7 @@ class Menu {
             for (let i = 0; i < this.selectedEmployeeType.trainees.length; i++) {
                 description += i + ') ' + this.selectedEmployeeType.trainees[i].describe() + '\n';
             }
-            let selection1 = this.showEmployeeTypeMenuOptions(description);
+            let selection1 = this.showEmployeeTypeMenuOptions(description); //When viewing an employee type, another menu will give the option of adding or deleting a trainee.
             switch (selection1) {
                 case '0':
                     this.createTrainee();
@@ -126,7 +127,7 @@ class Menu {
     createTrainee() {
         let name = prompt('Enter name for new trainee: ');
         let title = prompt('Enter title for new trainee: ');
-        this.selectedEmployeeType.addTrainee(new Trainee(name, title));
+        this.selectedEmployeeType.addTrainee(new Trainee(name, title)); //After adding a new trainee name, it will also ask for the job title.
     }
 
     deleteTrainee() {
@@ -137,5 +138,5 @@ class Menu {
     }
 }
 
-let menu = new Menu();
-menu.start();
+let menu = new Menu(); //Instatiates a new menu object.
+menu.start(); //Start method to initiate the application.
